@@ -37,8 +37,8 @@ public class PersistenceConfig {
 	public DataSource dataSource() {
 		DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
 		driverManagerDataSource.setUsername("root");
-		driverManagerDataSource.setPassword("root");
-		driverManagerDataSource.setUrl("jdbc:mysql://localhost:3306/mibd");
+		driverManagerDataSource.setPassword("41925429");
+		driverManagerDataSource.setUrl("jdbc:mysql://localhost:3306/db-ttps-java");
 		driverManagerDataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		return driverManagerDataSource;
 	}
@@ -53,9 +53,9 @@ public class PersistenceConfig {
 	
 	private Properties additionalProperties() {
 		Properties properties = new Properties();		
-		properties.setProperty("hibernate.hbm2ddl.auto", "create");
+		properties.setProperty("hibernate.hbm2ddl.auto", "update");
 		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
-		properties.setProperty("hibernate.default_schema", "mibd");
+		properties.setProperty("hibernate.default_schema", "db-ttps-java");
 		return properties;
 	}
 		

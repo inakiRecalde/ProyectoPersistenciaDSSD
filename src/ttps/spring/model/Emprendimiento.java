@@ -31,8 +31,8 @@ public class Emprendimiento {
 	@Column(name="BANNER")
 	private Image banner; */
 	
-	@Column(name="MOSTRAR_TOP")
-	private boolean mostrarTop;
+	/* @Column(name="MOSTRAR_TOP")
+	private boolean mostrarTop; */
 	
 	@Column(name="PRECIO_POR_MANGUITO")
 	private double precioPorManguito;
@@ -99,13 +99,14 @@ public class Emprendimiento {
 		this.banner = banner;
 	}
 */
+	/*
 	public boolean isMostrarTop() {
 		return mostrarTop;
 	}
 
 	public void setMostrarTop(boolean mostrarTop) {
 		this.mostrarTop = mostrarTop;
-	}
+	} */
 
 	public double getPrecioPorManguito() {
 		return precioPorManguito;

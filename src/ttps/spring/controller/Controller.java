@@ -24,15 +24,20 @@ import ttps.spring.repositories.UsuarioRepository;
 
 @RestController
 @RequestMapping("/manguito")
+
 public class Controller {
 	
 	@Autowired
 	private EmprendimientoRepository emprendimientoRepository;
+
 	@Autowired
 	private DonacionRepository donacionRepository;
+	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-
+	
+	
+	
 	@PostMapping("/createEmprendimiento")
 	 public ResponseEntity<Emprendimiento> create(@RequestBody Emprendimiento emprendimiento) {
 		 System.out.println("Entra al controller");
@@ -48,13 +53,14 @@ public class Controller {
 	 }
 	
 	@GetMapping("/emprendimiento/{id}")
-	 public ResponseEntity<Optional<Emprendimiento>> getEmprendimiento(@PathVariable("id") long id) {
-		 System.out.println("Entra al controller");
+	 public ResponseEntity<Emprendimiento> getEmprendimiento(@PathVariable("id") long id) {
+		 System.out.println("Entra al controller id");
 		 Optional<Emprendimiento> emprendimiento = emprendimientoRepository.findById(id);
-		 if (emprendimiento==null) {
-			 return new ResponseEntity<Optional<Emprendimiento>>(HttpStatus.NOT_FOUND);
+		 System.out.println(emprendimiento.get().getDominio());
+		 if (emprendimiento.isEmpty()) {
+			 return new ResponseEntity<Emprendimiento>(HttpStatus.NOT_FOUND);
 		 }
-		 return new ResponseEntity<Optional<Emprendimiento>>(emprendimiento, HttpStatus.OK);
+		 return new ResponseEntity<Emprendimiento>(emprendimiento.get(), HttpStatus.OK);
 	 }
 	
 	@PutMapping(value = "/emprendimiento/{id}")
