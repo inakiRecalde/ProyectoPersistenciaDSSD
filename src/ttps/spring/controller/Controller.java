@@ -105,12 +105,27 @@ public class Controller {
 	
 	
 	@GetMapping("/getUsuario")
-	 public ResponseEntity<Usuario> getUsuario(@RequestParam("id") long id) {
+	 public ResponseEntity<Usuario> getUsuario(@RequestParam long id) {
+		 System.out.println("Entra al controller");
 		 Optional<Usuario> user = usuarioRepository.findById(id);
 		 if (user.isEmpty()) {
+			 System.out.println("user es vacio");
 			 return new ResponseEntity<Usuario>(HttpStatus.NOT_FOUND);
 		 }
+		 System.out.println("user no es vacio");
 		 return new ResponseEntity<Usuario>(user.get(), HttpStatus.OK);
+	 }
+	
+	@GetMapping("/getListaUsuarios")
+	 public ResponseEntity<List<Usuario>> getListaUsuarios() {
+		 System.out.println("Entra al controller");
+		 List<Usuario> users = usuarioRepository.findAll();
+		 if (users.isEmpty()) {
+			 System.out.println("user es vacio");
+			 return new ResponseEntity<List<Usuario>>(HttpStatus.NOT_FOUND);
+		 }
+		 System.out.println("user no es vacio");
+		 return new ResponseEntity<List<Usuario>>(users, HttpStatus.OK);
 	 }
 
 	
