@@ -14,36 +14,87 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import ttps.spring.model.Donacion;
-import ttps.spring.model.Emprendimiento;
+import ttps.spring.model.Coleccion;
+import ttps.spring.model.Material;
+import ttps.spring.model.Modelo;
+import ttps.spring.model.Plan;
+import ttps.spring.model.Tipo;
 import ttps.spring.model.Usuario;
-import ttps.spring.repositories.DonacionRepository;
-import ttps.spring.repositories.EmprendimientoRepository;
+import ttps.spring.repositories.ColeccionRepository;
+import ttps.spring.repositories.MaterialRepository;
+import ttps.spring.repositories.ModeloRepository;
+import ttps.spring.repositories.TipoRepository;
 import ttps.spring.repositories.UsuarioRepository;
 
 @RestController
-@RequestMapping("/manguito")
+@RequestMapping("/dssd")
 
 public class Controller {
-	
 	@Autowired
-	private EmprendimientoRepository emprendimientoRepository;
+	private ColeccionRepository coleccionRepository;
+	
 
 	@Autowired
-	private DonacionRepository donacionRepository;
+	private MaterialRepository materialRepository;
+	
+	@Autowired
+	private ModeloRepository modeloRepository;
+	
+	@Autowired
+	private TipoRepository tipoRepository;
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
 	
+	//  CONTROLERS COLECCION
 	
-	@PostMapping("/createEmprendimiento")
-	 public ResponseEntity<Emprendimiento> create(@RequestBody Emprendimiento emprendimiento) {
-		 System.out.println("Entra al controller");
-		 emprendimientoRepository.save(emprendimiento);
-		 return new ResponseEntity<Emprendimiento>(emprendimiento, HttpStatus.CREATED);
+	@PostMapping("/createColeccion")
+	 public ResponseEntity<Coleccion> createColeccion(@RequestBody Coleccion coleccion) {
+		 System.out.println("Entra al controller Coleccion");
+		 coleccionRepository.save(coleccion);
+		 return new ResponseEntity<Coleccion>(coleccion, HttpStatus.CREATED);
 	}
+	
+	//  CONTROLERS material
+	
+	@PostMapping("/createDonacion")
+	 public ResponseEntity<Material> createDonacion(@RequestBody Material material) {
+		 System.out.println("Entra al controller c material");
+		 materialRepository.save(material);
+		 return new ResponseEntity<Material>(material, HttpStatus.CREATED);
+	}
+	
+	
+	
+	
+	//  CONTROLERS modelo
+	
+	//anda
+	@PostMapping("/createModelo")
+	 public ResponseEntity<Modelo> createEmprendimiento(@RequestBody Modelo modelo) {
+		 System.out.println("Entra al controller create modelo");
+		 modeloRepository.save(modelo);
+		 return new ResponseEntity<Modelo>(modelo, HttpStatus.CREATED);
+	}
+	
+	
+	
+
+	
+	//  CONTROLERS tipo
+	
+	@PostMapping("/createTipo")
+	 public ResponseEntity<Tipo> createPlan(@RequestBody Tipo tipo) {
+		 System.out.println("Entra al controller tipo");
+		 tipoRepository.save(tipo);
+		 return new ResponseEntity<Tipo>(tipo, HttpStatus.CREATED);
+	}
+	
+	
+
+	
+	// CONTROLERS Usuario
 	
 	@PostMapping("/registrarUsuario")
 	 public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario user) {
@@ -52,63 +103,34 @@ public class Controller {
 		 return new ResponseEntity<Usuario>(user, HttpStatus.CREATED);
 	 }
 	
-	@GetMapping("/emprendimiento/{id}")
-	 public ResponseEntity<Emprendimiento> getEmprendimiento(@PathVariable("id") long id) {
-		 System.out.println("Entra al controller id");
-		 Optional<Emprendimiento> emprendimiento = emprendimientoRepository.findById(id);
-		 System.out.println(emprendimiento.get().getDominio());
-		 if (emprendimiento.isEmpty()) {
-			 return new ResponseEntity<Emprendimiento>(HttpStatus.NOT_FOUND);
-		 }
-		 return new ResponseEntity<Emprendimiento>(emprendimiento.get(), HttpStatus.OK);
-	 }
 	
-	@PutMapping(value = "/emprendimiento/{id}")
-	 public  ResponseEntity<Optional<Emprendimiento>> updateEmprendimiento(@PathVariable("id") long id, @RequestBody Emprendimiento emprendimiento) {
-		 Optional<Emprendimiento> currentEmprendimiento = emprendimientoRepository.findById(id);
-		 if(currentEmprendimiento.isEmpty()){
-			 return new ResponseEntity<Optional<Emprendimiento>>(HttpStatus.NOT_FOUND);
+	@GetMapping("/getUsuario")
+	 public ResponseEntity<Usuario> getUsuario(@RequestParam("id") long id) {
+		 Optional<Usuario> user = usuarioRepository.findById(id);
+		 if (user.isEmpty()) {
+			 return new ResponseEntity<Usuario>(HttpStatus.NOT_FOUND);
 		 }
-		 currentEmprendimiento.get().setNombre(emprendimiento.getNombre());
-		 currentEmprendimiento.get().setDominio(emprendimiento.getDominio());
-		 currentEmprendimiento.get().setPassword(emprendimiento.getPassword());
-		 currentEmprendimiento.get().setDescripcion(emprendimiento.getDescripcion());
-		 emprendimientoRepository.save(currentEmprendimiento.get());
-		 
-		 return new ResponseEntity<Optional<Emprendimiento>>(currentEmprendimiento,HttpStatus.OK);
-	  }
+		 return new ResponseEntity<Usuario>(user.get(), HttpStatus.OK);
+	 }
+
 	
 	@GetMapping("/login")
-	 public ResponseEntity<Usuario> login(@RequestParam String username, @RequestParam String password){
+	 public ResponseEntity<Usuario> getUser(@RequestParam String username){
 		 System.out.println("Entra al controller");
-		 Usuario usuario = usuarioRepository.findByUsernameAndPassword(username, password);
+		 Usuario usuario = usuarioRepository.findByNombre(username);
 		 if (usuario==null) {
 			 return new ResponseEntity<Usuario>(HttpStatus.NOT_FOUND);
 		 }
 		 return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
 	 }
 	
-	@PostMapping("/createDonacion")
-	 public  ResponseEntity<Donacion> create(@RequestBody Donacion donacion) {
-		 System.out.println("entro create");
-		 Donacion don = donacionRepository.save(donacion);
-		 return new ResponseEntity<Donacion>(don, HttpStatus.CREATED);
-	 }
+
 	
-	@GetMapping("/getDonacionesEmprendimiento")
-	 public ResponseEntity<List<Donacion>> listar(@RequestParam Long idEmprendimiento) {
-		 List<Donacion> lista = donacionRepository.findByEmprendimiento(idEmprendimiento);
-		 if(lista.isEmpty()){
-			 return new ResponseEntity<List<Donacion>>(HttpStatus.NO_CONTENT);
-		 }
-		 return new ResponseEntity<List<Donacion>>(lista, HttpStatus.OK);
-	  }
-	
-	
+	//anda
 	@GetMapping("/probando")
-	 public ResponseEntity<Emprendimiento> listar() {
+	 public ResponseEntity<Usuario> listar() {
 		 System.out.println("Entra al controller");
-		 Emprendimiento emprendimiento = new Emprendimiento("Probando","1234");
-		 return ResponseEntity.ok(emprendimiento);
+		 Usuario user = new Usuario("user1");
+		 return ResponseEntity.ok(user);
 	 }
 }

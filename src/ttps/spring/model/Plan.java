@@ -1,67 +1,84 @@
 package ttps.spring.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="PLANES")
 public class Plan {
 
-	@Id @GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
-	
-	@Column(name="CANT_MANGUITOS")
-	private double cantManguitos;
-	
-	@Column(name="BENEFICIO")
-	private String beneficio;
-	
-	@OneToMany()
-	private List<Donacion> donaciones;
-	
-	@ManyToOne
-	private Emprendimiento emprendimiento;
-	
-	public Plan() {
-	}
-	
-	public Plan(double manguitos, String beneficio) {
-		this.cantManguitos = manguitos;
-		this.beneficio = beneficio;
-		this.donaciones = new ArrayList<Donacion>();
-	}
+    @Id @GeneratedValue(strategy=GenerationType.AUTO)
+    private Long id;
 
-	public double getCantManguitos() {
-		return cantManguitos;
-	}
+    @OneToMany(mappedBy="plan", cascade = CascadeType.REMOVE)
+    private List<Material> materiales;
+    
+    @Column(name="RUTAS")
+    private String rutas;
+    
+    @Column(name="LANZADO")
+    private Boolean lanzado;
+    
+    @Column(name="NEGOCIADO")
+    private Boolean renegociado;
+    
+    @OneToOne
+    private Coleccion coleccion;
+    
+    public Plan() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public void setCantManguitos(double cantManguitos) {
-		this.cantManguitos = cantManguitos;
-	}
+    public Plan(List<Material> materiales, String rutas, Boolean lanzado,
+            Boolean renegociado) {
+        super();
+        this.materiales = materiales;
+        this.rutas = rutas;
+        this.lanzado = lanzado;
+        this.renegociado = renegociado;
+    }
 
-	public String getBeneficio() {
-		return beneficio;
-	}
+    public List<Material> getMateriales() {
+        return materiales;
+    }
 
-	public void setBeneficio(String beneficio) {
-		this.beneficio = beneficio;
-	}
-	
-	public List<Donacion> getDonaciones() {
-		return donaciones;
-	}
+    public void setMateriales(List<Material> materiales) {
+        this.materiales = materiales;
+    }
 
-	public void setDonaciones(List<Donacion> donaciones) {
-		this.donaciones = donaciones;
-	}
-	
-	public Long getId() {
-		return id;
-	}
+    public String getRutas() {
+        return rutas;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setRutas(String rutas) {
+        this.rutas = rutas;
+    }
+
+
+    public Boolean getLanzado() {
+        return lanzado;
+    }
+
+    public void setLanzado(Boolean lanzado) {
+        this.lanzado = lanzado;
+    }
+
+    public Boolean getRenegociado() {
+        return renegociado;
+    }
+
+    public void setRenegociado(Boolean renegociado) {
+        this.renegociado = renegociado;
+    }
+    
 }

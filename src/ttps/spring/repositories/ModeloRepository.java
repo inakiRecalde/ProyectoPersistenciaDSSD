@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 import ttps.spring.model.*;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
-	
-	Usuario findByNombre(String nombre);
+public interface ModeloRepository extends JpaRepository<Modelo, Long> {
 
 }
