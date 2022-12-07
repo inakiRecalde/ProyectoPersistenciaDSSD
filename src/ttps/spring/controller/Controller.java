@@ -56,14 +56,57 @@ public class Controller {
 		 return new ResponseEntity<Coleccion>(coleccion, HttpStatus.CREATED);
 	}
 	
+	@GetMapping("/getColeccion")
+	 public ResponseEntity<Coleccion> getColeccion(@RequestParam long id) {
+		 System.out.println("Entra al controller Coleccion");
+		 Optional<Coleccion> coleccion = coleccionRepository.findById(id);
+		 if (coleccion.isEmpty()) {
+			 return new ResponseEntity<Coleccion>(HttpStatus.NOT_FOUND);
+		 }
+		 return new ResponseEntity<Coleccion>(coleccion.get(), HttpStatus.OK);
+	 }
+	
+	@GetMapping("/getListaColecciones")
+	 public ResponseEntity<List<Coleccion>> getListaColecciones() {
+		 System.out.println("Entra al controller  Coleccion");
+		 List<Coleccion> colecciones = coleccionRepository.findAll();
+		 if (colecciones.isEmpty()) {
+			 System.out.println("user es vacio");
+			 return new ResponseEntity<List<Coleccion>>(HttpStatus.NOT_FOUND);
+		 }
+		 System.out.println("user no es vacio");
+		 return new ResponseEntity<List<Coleccion>>(colecciones, HttpStatus.OK);
+	 }
+	
 	//  CONTROLERS material
 	
-	@PostMapping("/createDonacion")
+	@PostMapping("/createMaterial")
 	 public ResponseEntity<Material> createDonacion(@RequestBody Material material) {
 		 System.out.println("Entra al controller c material");
 		 materialRepository.save(material);
 		 return new ResponseEntity<Material>(material, HttpStatus.CREATED);
 	}
+	
+	@GetMapping("/getMaterial")
+	 public ResponseEntity<Material> getDonacion(@RequestParam long id) {
+		 System.out.println("Entra al controller Material");
+		 Optional<Material> material = materialRepository.findById(id);
+		 if (material.isEmpty()) {
+			 return new ResponseEntity<Material>(HttpStatus.NOT_FOUND);
+		 }
+		 return new ResponseEntity<Material>(material.get(), HttpStatus.OK);
+	 }
+	
+	@GetMapping("/getListaColecciones")
+	 public ResponseEntity<List<Material>> getListaMateriales() {
+		 System.out.println("Entra al controller  Material");
+		 List<Material> materiales = materialRepository.findAll();
+		 if (materiales.isEmpty()) {
+			 return new ResponseEntity<List<Material>>(HttpStatus.NOT_FOUND);
+		 }
+
+		 return new ResponseEntity<List<Material>>(materiales, HttpStatus.OK);
+	 }
 	
 	
 	
@@ -78,6 +121,26 @@ public class Controller {
 		 return new ResponseEntity<Modelo>(modelo, HttpStatus.CREATED);
 	}
 	
+	@GetMapping("/getModelo")
+	 public ResponseEntity<Modelo> getModelo(@RequestParam long id) {
+		 System.out.println("Entra al controller Modelo");
+		 Optional<Modelo> modelo = modeloRepository.findById(id);
+		 if (modelo.isEmpty()) {
+			 return new ResponseEntity<Modelo>(HttpStatus.NOT_FOUND);
+		 }
+		 return new ResponseEntity<Modelo>(modelo.get(), HttpStatus.OK);
+	 }
+	
+	@GetMapping("/getListamodelos")
+	 public ResponseEntity<List<Modelo>> getListaModelo() {
+		 System.out.println("Entra al controller  modelo");
+		 List<Modelo> modelos = modeloRepository.findAll();
+		 if (modelos.isEmpty()) {
+			 return new ResponseEntity<List<Modelo>>(HttpStatus.NOT_FOUND);
+		 }
+
+		 return new ResponseEntity<List<Modelo>>(modelos, HttpStatus.OK);
+	 }
 	
 	
 
@@ -91,7 +154,26 @@ public class Controller {
 		 return new ResponseEntity<Tipo>(tipo, HttpStatus.CREATED);
 	}
 	
+	@GetMapping("/getTipo")
+	 public ResponseEntity<Tipo> getTipo(@RequestParam long id) {
+		 System.out.println("Entra al controller Tipo");
+		 Optional<Tipo> tipo = tipoRepository.findById(id);
+		 if (tipo.isEmpty()) {
+			 return new ResponseEntity<Tipo>(HttpStatus.NOT_FOUND);
+		 }
+		 return new ResponseEntity<Tipo>(tipo.get(), HttpStatus.OK);
+	 }
 	
+	@GetMapping("/getListaTipos")
+	 public ResponseEntity<List<Tipo>> getListaTipo() {
+		 System.out.println("Entra al controller  Tipo");
+		 List<Tipo> tipo = tipoRepository.findAll();
+		 if (tipo.isEmpty()) {
+			 return new ResponseEntity<List<Tipo>>(HttpStatus.NOT_FOUND);
+		 }
+
+		 return new ResponseEntity<List<Tipo>>(tipo, HttpStatus.OK);
+	 }
 
 	
 	// CONTROLERS Usuario
@@ -129,7 +211,7 @@ public class Controller {
 	 }
 
 	
-	@GetMapping("/login")
+	@GetMapping("/getUserUsername")
 	 public ResponseEntity<Usuario> getUser(@RequestParam String username){
 		 System.out.println("Entra al controller");
 		 Usuario usuario = usuarioRepository.findByNombre(username);
